@@ -5,7 +5,6 @@ import 'package:portfolio/Utils/constants.dart';
 import 'package:portfolio/Utils/scroll_manager.dart';
 import 'package:provider/provider.dart';
 import 'package:portfolio/Providers/theme_provider.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 class Navbar extends StatefulWidget {
@@ -30,14 +29,11 @@ class Navbar extends StatefulWidget {
 }
 
 class _NavbarState extends State<Navbar> {
-  // Track the current active section
   String currentSection = 'Home';
 
   @override
   void initState() {
     super.initState();
-
-    // Scroll listener to detect section changes
     ScrollManager.scrollController.addListener(_scrollListener);
   }
 
@@ -47,7 +43,6 @@ class _NavbarState extends State<Navbar> {
     super.dispose();
   }
 
-  // Update current section based on scroll position
   void _scrollListener() {
     final double offset = ScrollManager.scrollController.offset;
     if (offset < widget.aboutKey.currentContext!.size!.height) {
@@ -76,165 +71,166 @@ class _NavbarState extends State<Navbar> {
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
+    final bool isDarkMode = themeProvider.isDarkMode;
 
-    final Color backgroundColor =
-        Theme.of(context).appBarTheme.backgroundColor ?? AppColors.darkmode;
-    final Color textColor = themeProvider.isDarkMode
-        ? AppColors.lightmode
-        : AppColors.darkmode;
+    final Color backgroundColor = isDarkMode ? Colors.black : Theme.of(context).appBarTheme.backgroundColor ?? AppColors.lightmode;
+    final Color textColor = isDarkMode ? AppColors.lightmode : AppColors.darkmode;
 
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
-      color: backgroundColor,
-      child: LayoutBuilder(
-        builder: (context, constraints) {
-          if (constraints.maxWidth > 600) {
-            // Desktop view: Show full navbar
-            return Row(
-              children: [
-                // Left side: Name
-                Expanded(
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      'Murewa',
-                      style: TextStyle(
-                        fontSize: 24.sp,
-                        fontWeight: FontWeight.bold,
-                        color: textColor,
+    return SafeArea(
+      child: Positioned(
+        top: 0,
+        left: 0,
+        right: 0,
+        child: Container(
+          height: 60.h,
+          width: double.infinity,
+          color: backgroundColor,
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                if (constraints.maxWidth > 600) {
+                  return Row(
+                    children: [
+                      Expanded(
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            'Murewa',
+                            style: TextStyle(
+                              fontSize: 24.sp,
+                              fontWeight: FontWeight.bold,
+                              color: textColor,
+                            ),
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                ),
-                // Right side: Page links
-                Row(
-                  children: [
-                    _buildNavItem('Home', () => ScrollManager.scrollToSection(widget.homeKey)),
-                    _buildNavItem('About', () => ScrollManager.scrollToSection(widget.aboutKey)),
-                    _buildNavItem('Projects', () => ScrollManager.scrollToSection(widget.projectsKey)),
-                    _buildNavItem('Services', () => ScrollManager.scrollToSection(widget.servicesKey)),
-                    _buildNavItem('Resume', () => ScrollManager.scrollToSection(widget.resumeKey)),
-                    SizedBox(width: 20.w),
-                    GestureDetector(
-  onTap: () async {
-    const url = 'https://linktr.ee/shizzle_';  // Replace with your actual Linktree URL
-    if (await canLaunchUrlString(url)) {
-      await launchUrlString(url);
-    } else {
-      throw 'Could not launch $url';
-    }
-  },
-  child: Container(
-    height: 30.h,
-    width: 50.w,
-    decoration: BoxDecoration(
-        // You can add a background color if needed
-      border: Border.all(color: AppColors.containerBord),
-      borderRadius: BorderRadius.circular(12),  // Add border radius here
-    ),
-    child: Center(
-      child: Text(
-        "Contact Me",
-        style: GoogleFonts.montserrat(
-          color: textColor,
+                      Row(
+                        children: [
+                          _buildNavItem('Home', () => ScrollManager.scrollToSection(widget.homeKey), isDarkMode),
+                          _buildNavItem('About', () => ScrollManager.scrollToSection(widget.aboutKey), isDarkMode),
+                          _buildNavItem('Projects', () => ScrollManager.scrollToSection(widget.projectsKey), isDarkMode),
+                          _buildNavItem('Services', () => ScrollManager.scrollToSection(widget.servicesKey), isDarkMode),
+                          _buildNavItem('Resume', () => ScrollManager.scrollToSection(widget.resumeKey), isDarkMode),
+                          SizedBox(width: 20.w),
+                          ElevatedButton(
+                            onPressed: () async {
+                              const url = 'https://linktr.ee/shizzle_';
+                              if (await canLaunchUrlString(url)) {
+                                await launchUrlString(url);
+                              } else {
+                                throw 'Could not launch $url';
+                              }
+                            },
+                            style: ElevatedButton.styleFrom(
+                              foregroundColor: textColor,
+                              backgroundColor: Colors.transparent,
+                              side: BorderSide(color: AppColors.containerBord),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 20.w),
+                            ),
+                            child: Center(
+                              child: Text(
+                                "Contact Me",
+                                style: GoogleFonts.montserrat(
+                                  color: textColor,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      IconButton(
+                        icon: Icon(
+                          isDarkMode ? Icons.light_mode : Icons.dark_mode,
+                          color: Colors.white,
+                        ),
+                        onPressed: () {
+                          themeProvider.toggleTheme(!isDarkMode);
+                        },
+                      ),
+                    ],
+                  );
+                } else {
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            'Murewa',
+                            style: GoogleFonts.rubik(
+                              fontSize: 20.sp,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                      IconButton(
+                        icon: Icon(
+                          Icons.menu,
+                          color: Colors.white,
+                        ),
+                        onPressed: () {
+                          _showDropdownMenu(context);
+                        },
+                      ),
+                      IconButton(
+                        icon: Icon(
+                          isDarkMode ? Icons.light_mode : Icons.dark_mode,
+                          color: Colors.white,
+                        ),
+                        onPressed: () {
+                          themeProvider.toggleTheme(!isDarkMode);
+                        },
+                      ),
+                    ],
+                  );
+                }
+              },
+            ),
+          ),
         ),
-      ),
-    ),
-  ),
-),
-                  ],
-                ),
-                // Theme switch icon
-                IconButton(
-                  icon: Icon(
-                    themeProvider.isDarkMode ? Icons.light_mode : Icons.dark_mode,
-                    color: Colors.white,
-                  ),
-                  onPressed: () {
-                    themeProvider.toggleTheme(!themeProvider.isDarkMode);
-                  },
-                ),
-              ],
-            );
-          } else {
-            // Mobile view: Show name and hamburger icon
-            return Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                // Left side: Name
-                Expanded(
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      'Murewa',
-                      style: GoogleFonts.rubik(
-                        fontSize: 20.sp,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                ),
-                // Right side: Hamburger icon
-                IconButton(
-                  icon: Icon(
-                    Icons.menu,
-                    color: Colors.white,
-                  ),
-                  onPressed: () {
-                    _showDropdownMenu(context);
-                  },
-                ),
-                // Theme switch icon
-                IconButton(
-                  icon: Icon(
-                    themeProvider.isDarkMode ? Icons.light_mode : Icons.dark_mode,
-                    color: Colors.white,
-                  ),
-                  onPressed: () {
-                    themeProvider.toggleTheme(!themeProvider.isDarkMode);
-                  },
-                ),
-              ],
-            );
-          }
-        },
       ),
     );
   }
 
-  // Mobile dropdown menu function that shows a dropdown under the hamburger icon
   void _showDropdownMenu(BuildContext context) {
     showMenu(
       context: context,
-      position: RelativeRect.fromLTRB(200, 50, 0, 0), // Position the menu
+      position: RelativeRect.fromLTRB(200, 50, 0, 0),
       items: [
         PopupMenuItem(
-          child: _buildNavItem('Home', () => ScrollManager.scrollToSection(widget.homeKey)),
+          child: _buildNavItem('Home', () => ScrollManager.scrollToSection(widget.homeKey), Provider.of<ThemeProvider>(context).isDarkMode),
         ),
         PopupMenuItem(
-          child: _buildNavItem('About', () => ScrollManager.scrollToSection(widget.aboutKey)),
+          child: _buildNavItem('About', () => ScrollManager.scrollToSection(widget.aboutKey), Provider.of<ThemeProvider>(context).isDarkMode),
         ),
         PopupMenuItem(
-          child: _buildNavItem('Projects', () => ScrollManager.scrollToSection(widget.projectsKey)),
+          child: _buildNavItem('Projects', () => ScrollManager.scrollToSection(widget.projectsKey), Provider.of<ThemeProvider>(context).isDarkMode),
         ),
         PopupMenuItem(
-          child: _buildNavItem('Services', () => ScrollManager.scrollToSection(widget.servicesKey)),
+          child: _buildNavItem('Services', () => ScrollManager.scrollToSection(widget.servicesKey), Provider.of<ThemeProvider>(context).isDarkMode),
         ),
         PopupMenuItem(
-          child: _buildNavItem('Resume', () => ScrollManager.scrollToSection(widget.resumeKey)),
+          child: _buildNavItem('Resume', () => ScrollManager.scrollToSection(widget.resumeKey), Provider.of<ThemeProvider>(context).isDarkMode),
         ),
         PopupMenuItem(
-          child: _buildNavItem('Contact', () => ScrollManager.scrollToSection(widget.contactKey)),
+          child: _buildNavItem('Contact', () => ScrollManager.scrollToSection(widget.contactKey), Provider.of<ThemeProvider>(context).isDarkMode),
         ),
       ],
       elevation: 8.0,
     );
   }
 
-  // Common method to build navigation items with color change
-  Widget _buildNavItem(String title, VoidCallback onTap) {
-    Color tileColor = currentSection == title ? AppColors.lightmode : AppColors.darkmode;
+  Widget _buildNavItem(String title, VoidCallback onTap, bool isDarkMode) {
+    Color tileColor = currentSection == title
+        ? (isDarkMode ? AppColors.darkmode : AppColors.lightmode)
+        : (isDarkMode ? AppColors.lightmode : AppColors.darkmode);
 
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),

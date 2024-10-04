@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:portfolio/Utils/constants.dart';
 import 'package:portfolio/components/navbar.dart';  // Import the Navbar component
@@ -47,16 +48,35 @@ class HomePage extends StatelessWidget {
                   padding: EdgeInsets.all(20.w),
                   height: 500.h,  // Set height for scrolling test
                   color: themeProvider.isDarkMode ? AppColors.darkmode : AppColors.lightmode,
-                  child: Center(
-                    child: Text(
-                      'Home Section',
-                      style: TextStyle(
-                        fontSize: 24.sp,
-                        fontWeight: FontWeight.bold,
-                        // color: themeProvider.isDarkMode ? AppColors.lightmode : AppColors.darkmode,
-                      ),
-                    ),
-                  ),
+                child: Stack(
+                  children:[
+                    Container(
+                      height: 500.h,
+                      width:1025.w,
+                      decoration:BoxDecoration(
+                        color: AppColors.darkmode,
+                      )
+                    )
+                  ]
+                ),
+
+
+
+
+                  // child: Center(
+                  //   child: Text(
+                  //     'Home Section',
+                  //     style: TextStyle(
+                  //       fontSize: 24.sp,
+                  //       fontWeight: FontWeight.bold,
+                  //       color: themeProvider.isDarkMode ? AppColors.lightmode : AppColors.darkmode,
+                  //     ),
+                  //   ),
+                  // ),
+
+
+
+
                 ),
                 // About Section
                 Container(
@@ -92,6 +112,7 @@ class HomePage extends StatelessWidget {
                     ),
                   ),
                 ),
+                //Todo: 0Services
                 // Services Section
                 Container(
                   key: servicesKey,
@@ -101,7 +122,7 @@ class HomePage extends StatelessWidget {
                   child: Center(
                     child: Text(
                       'Services Section',
-                      style: TextStyle(
+                      style: GoogleFonts.montserrat(
                         fontSize: 24.sp,
                         fontWeight: FontWeight.bold,
                         // color: themeProvider.isDarkMode ? Colors.white : Colors.black,
@@ -135,7 +156,7 @@ class HomePage extends StatelessWidget {
                   child: Center(
                     child: Text(
                       'Contact Section',
-                      style: TextStyle(
+                      style: GoogleFonts.montserrat(
                         fontSize: 24.sp,
                         fontWeight: FontWeight.bold,
                         // color: themeProvider.isDarkMode ? Colors.white : Colors.black,
