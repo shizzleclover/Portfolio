@@ -125,7 +125,7 @@ class _NavbarState extends State<Navbar> {
                             style: ElevatedButton.styleFrom(
                               foregroundColor: textColor,
                               backgroundColor: Colors.transparent,
-                              side: BorderSide(color: AppColors.containerBord),
+                              side: const BorderSide(color: AppColors.containerBord),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(12),
                               ),
@@ -165,13 +165,13 @@ class _NavbarState extends State<Navbar> {
                             style: GoogleFonts.rubik(
                               fontSize: 20.sp,
                               fontWeight: FontWeight.bold,
-                              color: Colors.white,
+                              color: textColor,
                             ),
                           ),
                         ),
                       ),
                       IconButton(
-                        icon: Icon(
+                        icon: const  Icon(
                           Icons.menu,
                           color: Colors.white,
                         ),
@@ -202,7 +202,7 @@ class _NavbarState extends State<Navbar> {
   void _showDropdownMenu(BuildContext context) {
     showMenu(
       context: context,
-      position: RelativeRect.fromLTRB(200, 50, 0, 0),
+      position: const RelativeRect.fromLTRB(200, 50, 0, 0),
       items: [
         PopupMenuItem(
           child: _buildNavItem('Home', () => ScrollManager.scrollToSection(widget.homeKey), Provider.of<ThemeProvider>(context).isDarkMode),
@@ -229,7 +229,7 @@ class _NavbarState extends State<Navbar> {
 
   Widget _buildNavItem(String title, VoidCallback onTap, bool isDarkMode) {
     Color tileColor = currentSection == title
-        ? (isDarkMode ? AppColors.darkmode : AppColors.lightmode)
+        ? (isDarkMode ? AppColors.lightmode : AppColors.darkmode)
         : (isDarkMode ? AppColors.lightmode : AppColors.darkmode);
 
     return Padding(
@@ -240,7 +240,7 @@ class _NavbarState extends State<Navbar> {
           title,
           style: GoogleFonts.montserrat(
             fontSize: 16.sp,
-            color: tileColor,
+            color: isDarkMode ? Colors.white : Colors.black,
             fontWeight: FontWeight.w500,
           ),
         ),
