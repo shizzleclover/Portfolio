@@ -24,7 +24,7 @@ class _ProjectPageState extends State<ProjectPage> {
               key: projectsKey,
               height: 500.h,
               color: themeProvider.isDarkMode ? AppColors.darkmode : AppColors.lightmode,
-              child: Column(
+              child:  const Column(
                 children: [
                   Center(
                     child: Text("Create container card to display project"),

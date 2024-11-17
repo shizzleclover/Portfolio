@@ -73,7 +73,7 @@ class _NavbarState extends State<Navbar> {
     final themeProvider = Provider.of<ThemeProvider>(context);
     final bool isDarkMode = themeProvider.isDarkMode;
 
-    final Color backgroundColor = isDarkMode ? Colors.black : Theme.of(context).appBarTheme.backgroundColor ?? AppColors.lightmode;
+    final Color backgroundColor = isDarkMode ? Colors.black : AppColors.lightPar;
     final Color textColor = isDarkMode ? AppColors.lightmode : AppColors.darkmode;
 
     return SafeArea(
@@ -229,8 +229,8 @@ class _NavbarState extends State<Navbar> {
 
   Widget _buildNavItem(String title, VoidCallback onTap, bool isDarkMode) {
     Color tileColor = currentSection == title
-        ? (isDarkMode ? AppColors.lightmode : AppColors.darkmode)
-        : (isDarkMode ? AppColors.lightmode : AppColors.darkmode);
+        ? (isDarkMode ? AppColors.lightPar : AppColors.darkmode)
+        : (isDarkMode ? AppColors.lightPar : AppColors.darkmode);
 
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),

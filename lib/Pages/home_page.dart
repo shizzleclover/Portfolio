@@ -1,6 +1,10 @@
+// ignore_for_file: unused_import
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:portfolio/Components/footer.dart';
 import 'package:portfolio/Pages/projects.dart';
+import 'package:portfolio/Pages/resume.dart';
 import 'package:portfolio/Pages/services.dart';
 // import 'package:flutter_svg/svg.dart';
 import 'about.dart';
@@ -48,7 +52,7 @@ class _HomePageState extends State<HomePage> {
                       padding: EdgeInsets.all(20.w),
                       height: 500.h,  // Set height for scrolling test
                       color: themeProvider.isDarkMode ? AppColors.darkmode : AppColors.lightmode,
-                    child: Center(
+                    child: const Center(
                        child: Text(
                         'Home Page'
                        ),
@@ -78,59 +82,57 @@ class _HomePageState extends State<HomePage> {
                       // ),
 
                     ),
+                     SizedBox(height: 100.h,),
                     //Home
                     // About Section
                     Container(
                       key: aboutKey,
                       child: const AboutPage(),
                     ),
-                    SizedBox(height: 150.h,),
+                    SizedBox(height: 100.h,),
                     // Projects Section
                     Container(
                        key: projectsKey,
                        child: const ProjectPage(),
                     ),
+                    SizedBox(height: 100.h,),
                     //Todo: 0Services
                     // Services Section
                     Container(
                       key: servicesKey,
                        child: const ServicesPage(),
                     ),
-                    
+                    SizedBox(height: 100.h,),
+
                     // Resume Section
                     Container(
                       key: resumeKey,
-                      padding: EdgeInsets.all(20.w),
-                      height: 500.h,
-                     color: themeProvider.isDarkMode ? AppColors.darkmode : AppColors.lightmode,
-                      child: Center(
-                        child: Text(
-                          'Resume Section',
-                          style: GoogleFonts.montserrat(
-                            fontSize: 24.sp,
-                            fontWeight: FontWeight.bold,
-                            // color: themeProvider.isDarkMode ? Colors.white : Colors.black,
-                          ),
-                        ),
-                      ),
+                        child: const ResumePage(),
                     ),
-                    // Contact Section
+                    SizedBox(height: 100.h,),
+
                     Container(
-                      key: contactKey,
-                      padding: EdgeInsets.all(20.w),
-                      height: 500.h,
-                     color: themeProvider.isDarkMode ? AppColors.darkmode : AppColors.lightmode,
-                      child: Center(
-                        child: Text(
-                          'Contact Section',
-                          style: GoogleFonts.montserrat(
-                            fontSize: 24.sp,
-                            fontWeight: FontWeight.bold,
-                            // color: themeProvider.isDarkMode ? Colors.white : Colors.black,
-                          ),
-                        ),
-                      ),
+                          child: const Footer(),
                     ),
+                    //Footer
+      
+                    // Contact Section
+                    // Container(
+                    //   key: contactKey,
+                    //   padding: EdgeInsets.all(20.w),
+                    //   height: 500.h,
+                    //  color: themeProvider.isDarkMode ? AppColors.darkmode : AppColors.lightmode,
+                    //   child: Center(
+                    //     child: Text(
+                    //       'Contact Section',
+                    //       style: GoogleFonts.montserrat(
+                    //         fontSize: 24.sp,
+                    //         fontWeight: FontWeight.bold,
+                    //         // color: themeProvider.isDarkMode ? Colors.white : Colors.black,
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
                   ],
                 ),
               ),
