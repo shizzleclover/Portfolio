@@ -63,7 +63,7 @@ class _HomePageState extends State<HomePage> {
                     //     Container(
                     //       height: 500.h,
                     //       width:1025.w,
-                    //       decoration:BoxDecoration(
+               //     //       decoration:BoxDecoration(
                     //         color: AppColors.darkmode,
                     //       )
                     //     )
